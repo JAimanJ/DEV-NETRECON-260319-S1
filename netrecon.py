@@ -52,6 +52,16 @@ def discoverHost(network):
     print(f"\n[*] {len(alive)} host(s) found.")
     return sorted(alive)
 
+    try:
+        sock=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(2)
+        sock.connect((ip, port))
+        banner = sock.recv(1024).decode("utf-8", errors="ignore").strip()
+        sock.close()
+        return banner if banner else "no banner"
+    except Exception:
+        return "no banner"
+
 # Testing v2
 #discoverHost("192.168.68.0/24")
 
